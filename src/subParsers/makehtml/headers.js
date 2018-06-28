@@ -17,9 +17,10 @@ showdown.subParser('makehtml.headers', function (text, options, globals) {
 
   text = text.replace(setextRegexH1, function (wholeMatch, m1) {
 
-    var spanGamut = showdown.subParser('makehtml.spanGamut')(m1, options, globals),
-        hID = (options.noHeaderId) ? '' : ' id="' + headerId(m1) + '"',
-        hLevel = headerLevelStart,
+    var spanGamut = showdown.subParser('makehtml.spanGamut')(m1, options, globals);
+    var id = headerId(m1);
+    var hID = id ? ' id="' + id + '"' : '';
+    var hLevel = headerLevelStart,
         hashBlock = '<h' + hLevel + hID + '>' + spanGamut + '</h' + hLevel + '>';
     return showdown.subParser('makehtml.hashBlock')(hashBlock, options, globals);
   });
@@ -64,7 +65,14 @@ showdown.subParser('makehtml.headers', function (text, options, globals) {
       var match = m.match(/\{([^{]+?)}\s*$/);
       if (match && match[1]) {
         m = match[1];
+        if (options.noHeaderId) {
+          return m;
+        }
       }
+    }
+
+    if (options.noHeaderId) {
+      return false;
     }
 
     title = m;
