@@ -3057,17 +3057,18 @@ showdown.subParser('makehtml.headers', function (text, options, globals) {
 
   text = text.replace(setextRegexH1, function (wholeMatch, m1) {
 
-    var spanGamut = showdown.subParser('makehtml.spanGamut')(m1, options, globals);
-    var id = headerId(m1);
-    var hID = id ? ' id="' + id + '"' : '';
-    var hLevel = headerLevelStart,
+    var spanGamut = showdown.subParser('makehtml.spanGamut')(m1, options, globals),
+        id = headerId(m1),
+        hID = id ? ' id="' + id + '"' : '',
+        hLevel = headerLevelStart,
         hashBlock = '<h' + hLevel + hID + '>' + spanGamut + '</h' + hLevel + '>';
     return showdown.subParser('makehtml.hashBlock')(hashBlock, options, globals);
   });
 
   text = text.replace(setextRegexH2, function (matchFound, m1) {
     var spanGamut = showdown.subParser('makehtml.spanGamut')(m1, options, globals),
-        hID = (options.noHeaderId) ? '' : ' id="' + headerId(m1) + '"',
+        id = headerId(m1),
+        hID = id ? ' id="' + id + '"' : '',
         hLevel = headerLevelStart + 1,
         hashBlock = '<h' + hLevel + hID + '>' + spanGamut + '</h' + hLevel + '>';
     return showdown.subParser('makehtml.hashBlock')(hashBlock, options, globals);
@@ -3089,7 +3090,8 @@ showdown.subParser('makehtml.headers', function (text, options, globals) {
     }
 
     var span = showdown.subParser('makehtml.spanGamut')(hText, options, globals),
-        hID = (options.noHeaderId) ? '' : ' id="' + headerId(m2) + '"',
+        id = headerId(m2),
+        hID = id ? ' id="' + id + '"' : '',
         hLevel = headerLevelStart - 1 + m1.length,
         header = '<h' + hLevel + hID + '>' + span + '</h' + hLevel + '>';
 
